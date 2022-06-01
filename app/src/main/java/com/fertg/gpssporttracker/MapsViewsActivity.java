@@ -74,8 +74,8 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     private void getActiveRunner() {
-        LatLng runnerLatLng;
-        mGeofireProvider.getActiveRunners(mCurrentLatLong).addGeoQueryEventListener(
+        LatLng runnerLatLng=buscar(keyEvent);
+        mGeofireProvider.getActiveRunners(runnerLatLng).addGeoQueryEventListener(
                 new GeoQueryEventListener() {
                     @Override
                     public void onKeyEntered(String key, GeoLocation location) {

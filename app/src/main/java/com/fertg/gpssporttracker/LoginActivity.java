@@ -62,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
 //btns
         btnlogin = (Button) findViewById(R.id.btnLogin);
         btnRegister = (Button) findViewById(R.id.btnRegistro);
-        btnVer = (Button) findViewById(R.id.btn_verEventos);
         //ediText
         login = (EditText) findViewById(R.id.etUsu);
         pass = (EditText) findViewById(R.id.etPass);
@@ -71,16 +70,6 @@ public class LoginActivity extends AppCompatActivity {
         inst = (ImageButton) findViewById(R.id.imInst);
         fb = (ImageButton) findViewById(R.id.imFac);
 
-
-        btnVer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(LoginActivity.this, "Modo Invitado", Toast.LENGTH_SHORT).show();
-                Intent in = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
-                startActivity(in, ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this).toBundle());
-                in.putExtra("mail", "Invitado");
-            }
-        });
 
 
 //ICONOS DE RRSS CON LISTENERS
