@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tv_nombre"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    android:animationCache="true"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="15dp"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="10dp"
+    app:contentPaddingBottom="0dp"
+
+    >
+
+    <LinearLayout
+        android:layout_width="373dp"
+        android:layout_height="121dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="158dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/meta" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Codigo"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_nombreRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre" />
+
+            <TextView
+                android:id="@+id/tv_localidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lugar" />
+
+            <TextView
+                android:id="@+id/tv_modalidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="modalidad" />
+
+            <TextView
+                android:id="@+id/tv_numero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NºParticipantes" />
+
+            <TextView
+                android:id="@+id/tv_fecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

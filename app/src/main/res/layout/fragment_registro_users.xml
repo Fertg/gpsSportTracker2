@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FragmentRegistroUsers">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="379dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="18dp">
+
+            <EditText
+                android:id="@+id/eT_name"
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                android:ems="10"
+                android:hint="Nombre Usuario:"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            >
+
+            <EditText
+                android:id="@+id/eT_email"
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:layout_marginLeft="18dp"
+            app:endIconMode="password_toggle"
+            android:layout_marginRight="18dp">
+
+            <EditText
+                android:id="@+id/et_Pass1"
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/pass"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            app:endIconMode="password_toggle">
+
+            <EditText
+                android:id="@+id/et_Pass2"
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                android:ems="10"
+                android:hint="@string/passR"
+                android:inputType="textPassword" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/checkBox2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:text="Soy organizador de eventos" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_registro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18dp"
+                        android:layout_weight="1"
+                        android:text="@string/registrarse" />
+
+                    <Button
+                        android:id="@+id/btn_limpiarRe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_weight="1"
+                        android:text="@string/clear" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">gpsSportTracker</string>
+    <string name="pr_ximos_eventos">Próximos eventos</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="invalid_mail">Inserte un email válido</string>
+    <string name="invalid_password">Inserte un password válido</string>
+    <string name="title_activity_mapas">Mapas</string>
+    <string name="title_activity_tutorial">tutorial</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="btnCamara" />
+    <string name="LugarOblig">Lugar: *</string>
+    <string name="nombre_carrera">Nombre Carrera: *</string>
+    <string name="fecha_carrera_ej_13_02_2022">Fecha Carrera: Ej: 13/02/2022 *</string>
+    <string name="tiempo_empleado_ej_01_28_22">Tiempo empleado: Ej: 01:28:22 *</string>
+    <string name="descripci_n">Descripción:</string>
+    <string name="guardar">Guardar</string>
+    <string name="limpiar">Limpiar</string>
+    <string name="mostrar_registros">Mostrar Registros</string>
+    <string name="seleccione_fecha">Seleccione Fecha</string>
+    <string name="descripci_n_del_entreno">Descripción del entreno.</string>
+    <string name="guardar_entreno">GUARDAR ENTRENO</string>
+    <string name="mostrar_entrenos">Mostrar Entrenos</string>
+    <string name="enviar_ubicaci_n">ENVIAR UBICACIÓN</string>
+    <string name="obtener_ubicaci_n">OBTENER UBICACIÓN</string>
+    <string name="coordenadas_ubicacion">COORDENADAS UBICACION</string>
+    <string name="cambiar_contacto_de_seguridad">Cambiar Contacto de Seguridad</string>
+    <string name="cambiar">Cambiar</string>
+    <string name="usuario">Usuario:</string>
+    <string name="contrase_a">Contraseña:</string>
+    <string name="iniciar_sesi_n">Iniciar sesión</string>
+    <string name="no_tienes_cuenta">¿No tienes cuenta?</string>
+    <string name="x">x</string>
+    <string name="cerrar_sesion">Cerrar Sesion</string>
+    <string name="listSimbol">Simbolos más utilizados en Orientación</string>
+    <string name="email">Email:</string>
+    <string name="pass">Contraseña:</string>
+    <string name="passR">Repita Contraseña:</string>
+    <string name="condicionesUso">Aceptar condiciones de uso</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="clear">Limpiar</string>
+    <string name="lugar">Lugar</string>
+    <string name="evento">Evento</string>
+    <string name="fecha">Fecha</string>
+    <string name="tiempo">Tiempo</string>
+    <string name="descripcion">Descripcion</string>
+
+    <string name="fecha_entreno">Fecha entreno:</string>
+    <string name="borrar_preg">\"¿Borrar? \"</string>
+    <string name="deshacer">Deshacer</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_maps_views">MapsViewsActivity</string>
+</resources>
