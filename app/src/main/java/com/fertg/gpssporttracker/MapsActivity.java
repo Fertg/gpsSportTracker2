@@ -66,10 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             auth = FirebaseAuth.getInstance();
-
             mDatabase = FirebaseDatabase.getInstance().getReference();
-
-
             mDatabase.child("Users").child(auth.getUid().toString()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -78,9 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         nombre = snapshot.child("name").getValue().toString();
                         for (Location location : locationResult.getLocations()) {
                             mCurrentLatLong = new LatLng(location.getLatitude(),location.getLongitude());
-
                             if (getApplicationContext() != null) {
-
                                 if (mMarker != null) {
                                     mMarker.remove();
                                 }
@@ -93,11 +88,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                 .target(new LatLng(location.getLatitude(), location.getLongitude()))
                                                 .zoom(15f)
                                                 .build()
-
                                 ));
-
                                 updateLocation();
-
                             }
                         }
 
@@ -132,13 +124,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     private void updateLocation(){
         if(existSesion() && mCurrentLatLong != null){
-
             mGeofireProvider.saveLocation(FirebaseAuth.getInstance().getCurrentUser().getUid().toString() + "_ID_"+KeyEvent,mCurrentLatLong);
         }
     }
+
 public boolean existSesion(){
         boolean exist =false;
-        if(auth.getCurrentUser() != null){
+            if(auth.getCurrentUser() != null){
             exist=true;
         }
         return true;
@@ -147,7 +139,6 @@ public boolean existSesion(){
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -160,7 +151,6 @@ public boolean existSesion(){
                 .setSmallestDisplacement(5);
         startLocation();
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

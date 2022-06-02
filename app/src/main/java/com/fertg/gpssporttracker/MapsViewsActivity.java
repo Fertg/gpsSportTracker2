@@ -62,9 +62,6 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
         setContentView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-
-
         mCurrentLatLong =  buscar(keyEvent);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -80,7 +77,6 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
                     @Override
                     public void onKeyEntered(String key, GeoLocation location) {
                         //añadir marcadores de los corredores que están en el evento
-
                         for (Marker mMarker : mRunnerMarkers) {
                             if (mMarker.getTag() != null) {
                                 if (mMarker.getTag().equals(key)) {
@@ -88,8 +84,8 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
                                 }
                             }
                         }
-                        LatLng runnerLatLng = new LatLng(location.latitude, location.longitude);
-                        Marker mMarker = mMap.addMarker(new MarkerOptions().position(runnerLatLng).title("NombreCorredor").icon(BitmapDescriptorFactory.fromResource(R.drawable.location)));
+                        LatLng runLat = new LatLng(location.latitude, location.longitude);
+                        Marker mMarker = mMap.addMarker(new MarkerOptions().position(runLat).title("NombreCorredor").icon(BitmapDescriptorFactory.fromResource(R.drawable.location)));
                         mMarker.setTag(key);
                         mRunnerMarkers.add(mMarker);
                     }
@@ -132,9 +128,6 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
                     }
                 });
     }
-
-
-
     public LatLng buscar(String keyEvent) {
 
         String addressStr = keyEvent;
@@ -166,6 +159,7 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
                         .target(ubi)
                         .zoom(14f)
                         .build()));
+
     }
 
 

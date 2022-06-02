@@ -13,10 +13,6 @@ public class GeofireProvider {
     public GeofireProvider() {
        mDatabase = FirebaseDatabase.getInstance().getReference().child("active_runers");
        mGeofire = new GeoFire(mDatabase);
-
-
-
-
     }
 
     public void saveLocation(String id, LatLng latlong){
@@ -25,10 +21,7 @@ public class GeofireProvider {
 
     public void removeLocation(String id){
         mGeofire.removeLocation(id);
-
     }
-
-
 
     public GeoQuery getActiveRunners(LatLng latlng){
         GeoQuery geoQuery = mGeofire.queryAtLocation(new GeoLocation(latlng.latitude, latlng.longitude),20);
