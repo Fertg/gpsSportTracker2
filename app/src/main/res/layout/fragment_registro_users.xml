@@ -101,6 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18dp"
                         android:layout_weight="1"
+                        android:backgroundTint="#FFAB40"
                         android:text="@string/registrarse" />
 
                     <Button
@@ -110,6 +111,7 @@
                         android:layout_marginLeft="18dp"
                         android:layout_marginRight="18dp"
                         android:layout_weight="1"
+                        android:backgroundTint="#FFAB40"
                         android:text="@string/clear" />
                 </LinearLayout>
 

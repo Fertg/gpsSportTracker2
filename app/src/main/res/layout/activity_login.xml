@@ -34,7 +34,7 @@
             android:id="@+id/etUsu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/usuario"
+            android:hint="Introduzca el email:"
             android:textAlignment="textStart" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:ems="10"
-            android:hint="Contraseña:"
+            android:hint="Introduzca la contraseña:"
             android:inputType="textPassword"
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -110,8 +110,8 @@
 
     <FrameLayout
         android:id="@+id/frameLayoutRegistro"
-        android:layout_width="381dp"
-        android:layout_height="389dp"
+        android:layout_width="387dp"
+        android:layout_height="457dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="123dp"

@@ -11,14 +11,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icono2"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GpsSportTracker">
 
         <!--
-             TODO: Before you run your application, you need a Google Maps API key.
+             TODO: Before you run your application, you need a Google Maps API k ey.
 
              To get one, follow the directions here:
 

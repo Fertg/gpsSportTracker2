@@ -124,7 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     private void updateLocation(){
         if(existSesion() && mCurrentLatLong != null){
-            mGeofireProvider.saveLocation(FirebaseAuth.getInstance().getCurrentUser().getUid().toString() + "_ID_"+KeyEvent,mCurrentLatLong);
+            mGeofireProvider.saveLocation(FirebaseAuth.getInstance().getCurrentUser().getUid().toString(),mCurrentLatLong);
         }
     }
 

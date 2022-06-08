@@ -51,7 +51,8 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
     private List<Marker> mRunnerMarkers = new ArrayList<>();
     String ubicacion="";
     private Marker mMarker;
-
+    private RunnerProvider runnerProvider;
+ private int mCounter=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,8 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
         binding = ActivityMapsViewsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
+
+        runnerProvider = new RunnerProvider();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mCurrentLatLong =  buscar(keyEvent);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -68,6 +71,7 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         getActiveRunner();
+
     }
 
     private void getActiveRunner() {
@@ -85,10 +89,14 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
                             }
                         }
                         LatLng runLat = new LatLng(location.latitude, location.longitude);
-                        Marker mMarker = mMap.addMarker(new MarkerOptions().position(runLat).title("NombreCorredor").icon(BitmapDescriptorFactory.fromResource(R.drawable.location)));
+                       Marker mMarker = mMap.addMarker(new MarkerOptions().position(runLat).title("").icon(BitmapDescriptorFactory.fromResource(R.drawable.location)));
                         mMarker.setTag(key);
+
+                        getRunnersInfo();
                         mRunnerMarkers.add(mMarker);
                     }
+
+
 
                     @Override
                     public void onKeyExited(String key) {
@@ -147,8 +155,35 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
         }
         return latLongEv;
     }
+    private void getRunnersInfo() {
+        mCounter= 0;
+        for(Marker marker:mRunnerMarkers){
+            runnerProvider.getRunner(marker.getTag().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    mCounter= mCounter + 1;
+                    if(snapshot.exists()) {
+                        if(snapshot.hasChild("name")){
+                            String name = snapshot.child("name").getValue().toString();
+                            marker.setTitle(name);
+                        }
 
-    //TODO LE PASO CODIGO Y RECIBO LAS COORDENADAS DEL EVENTO
+                        if(mCounter== mRunnerMarkers.size()){
+                            mMap.setInfoWindowAdapter(new PopupAdapter(MapsViewsActivity.this,getLayoutInflater()));
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
+
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
