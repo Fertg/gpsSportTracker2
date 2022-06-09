@@ -10,6 +10,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationResult;
@@ -32,6 +34,7 @@ import com.fertg.gpssporttracker.databinding.ActivityMapsBinding;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -50,6 +53,7 @@ import com.google.firebase.database.ValueEventListener;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Button btndisc;
     private SupportMapFragment mapFragment;
     private GeofireProvider mGeofireProvider;
     private final static int LOCATION_REQUEST_CODE = 1;
@@ -58,9 +62,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest mLocationRequest;
     private String  KeyEvent="";
     private LatLng mCurrentLatLong;
-
+    private MapView mMapView;
     private Marker mMarker;
-
+    private static final String MAPVIEW_BUNDLE_KEY = "AIzaSyAycNx8SvegwhjRFU_nsZbyx-lkRLAyz4E";
     private FusedLocationProviderClient mFusedLocation;
     LocationCallback mLocationCall = new LocationCallback() {
         @Override
@@ -114,20 +118,88 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Intent intent = getIntent();
+        btndisc=findViewById(R.id.btnDisconect);
         KeyEvent = intent.getStringExtra(MenuPrincipalActivity.KEY_EVENT);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+          //      .findFragmentById(R.id.map);
+        //mapFragment.getMapAsync(this);
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+        }
+        mMapView = (MapView) findViewById(R.id.mapView);
+        mMapView.onCreate(mapViewBundle);
+
+        mMapView.getMapAsync(this);
+
         mGeofireProvider = new GeofireProvider();
+
+        btndisc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mFusedLocation.removeLocationUpdates(mLocationCall);
+                mGeofireProvider.removeLocation(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                Intent in = new Intent(MapsActivity.this, MenuPrincipalActivity.class);
+                startActivity(in, ActivityOptions.makeSceneTransitionAnimation(MapsActivity.this).toBundle());
+                Toast.makeText(MapsActivity.this, "Desconectado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
+        }
+
+        mMapView.onSaveInstanceState(mapViewBundle);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMapView.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mMapView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mMapView.onStop();
     }
     private void updateLocation(){
         if(existSesion() && mCurrentLatLong != null){
             mGeofireProvider.saveLocation(FirebaseAuth.getInstance().getCurrentUser().getUid().toString(),mCurrentLatLong);
         }
     }
+    @Override
+    protected void onPause() {
+        mMapView.onPause();
+        super.onPause();
+    }
 
+    @Override
+    protected void onDestroy() {
+        mMapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
+    }
 public boolean existSesion(){
         boolean exist =false;
             if(auth.getCurrentUser() != null){
