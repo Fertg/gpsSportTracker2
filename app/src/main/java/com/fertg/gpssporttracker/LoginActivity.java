@@ -39,7 +39,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
-    private Button btnlogin, btnRegister, btnClose,btnVer;
+    private Button btnlogin, btnRegister, btnClose;
     private EditText login, pass;
     private FrameLayout frameLayoutRegistroC;
     private Fragment myFrag;
@@ -95,22 +95,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
         frameLayoutRegistroC.setVisibility(INVISIBLE);
-        myFrag = new FragmentRegistroUsers();
-        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).add(R.id.frameLayoutRegistro, myFrag).commit();
+
 
         txi1 = (TextInputLayout) findViewById(R.id.textInputLayout2);
         txi2 = (TextInputLayout) findViewById(R.id.textInputLayout4);
         btnClose = (Button) findViewById(R.id.btn_close);
         mAuth = FirebaseAuth.getInstance();
         mDatabase= FirebaseDatabase.getInstance().getReference();
-
         FirebaseUser user = mAuth.getCurrentUser();
         WebView wView = new WebView(this);
-
-
-
+        myFrag = new FragmentRegistroUsers();
+        getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).add(R.id.frameLayoutRegistro, myFrag).commit();
         awesomevalidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomevalidation.addValidation(this,
                 R.id.eT_email,
@@ -124,7 +120,6 @@ public class LoginActivity extends AppCompatActivity {
         btnlogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
-
             public void onClick(View view) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -140,9 +135,6 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                         loginOk();
-
-
-                                            //startActivity(i);
                                         } else {
                                             String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
                                             dameToastdeerror(errorCode, view);
@@ -190,7 +182,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     public void mostrar() {
@@ -218,7 +209,6 @@ public class LoginActivity extends AppCompatActivity {
             imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         } catch (Exception e) {
-            // TODO extra: Adecentar la excepción
         }
     }
 

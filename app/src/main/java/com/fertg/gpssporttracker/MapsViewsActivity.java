@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.geofire.GeoLocation;
@@ -88,12 +89,27 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
                                 }
                             }
                         }
-                        LatLng runLat = new LatLng(location.latitude, location.longitude);
-                       Marker mMarker = mMap.addMarker(new MarkerOptions().position(runLat).title("").icon(BitmapDescriptorFactory.fromResource(R.drawable.location)));
-                        mMarker.setTag(key);
+                        mDatabase.child("Users").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    String nombre;
+                                    nombre = snapshot.child("name").getValue().toString();
+                                    LatLng runLat = new LatLng(location.latitude, location.longitude);
+                                    Marker mMarker = mMap.addMarker(new MarkerOptions().position(runLat).title(nombre).icon(BitmapDescriptorFactory.fromResource(R.drawable.location)));
+                                    mMarker.setTag(key);
+                                    Log.e("nombre corredor: ", nombre) ;
+                                    getRunnersInfo();
+                                    mRunnerMarkers.add(mMarker);
+                                }
+                            }
 
-                        getRunnersInfo();
-                        mRunnerMarkers.add(mMarker);
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                     }
 
 

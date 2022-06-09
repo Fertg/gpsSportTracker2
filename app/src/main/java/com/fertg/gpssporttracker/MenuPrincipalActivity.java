@@ -27,7 +27,7 @@ import java.util.Objects;
 
 public class MenuPrincipalActivity extends AppCompatActivity {
     public static final String KEY_EVENT ="KEY_EVENT";
-    private Button share,limpiar,create,misEvents,seguir;
+    private Button share,limpiar,create,misEvents,seguir,btnClose;
     private TextView nombreL,typeRol;
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
@@ -36,12 +36,16 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
+        //tvNombre
         nombreL=findViewById(R.id.tvNombre);
+        //btns
         share=findViewById(R.id.btn_share);
         create=findViewById(R.id.btn_Crear);
         limpiar=findViewById(R.id.btn_limp);
         seguir=findViewById(R.id.btn_verEventoT);
         misEvents=findViewById(R.id.btn_eventosCreados);
+        btnClose=findViewById(R.id.btn_closeSesion);
+        //tv
         typeRol=findViewById(R.id.textVrol);
         codigoEvento=findViewById(R.id.input_codigo);
         locaEvento=findViewById(R.id.input_loca);
@@ -49,8 +53,21 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         create.setVisibility(View.INVISIBLE);
         misEvents.setVisibility(View.INVISIBLE);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
         chekType();
+
+
+        //btnCloseSession
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                auth.signOut();
+                Intent in = new Intent(MenuPrincipalActivity.this, LoginActivity.class);
+                startActivity(in, ActivityOptions.makeSceneTransitionAnimation(MenuPrincipalActivity.this).toBundle());
+            }
+        });
+
+
+
 
  seguir.setOnClickListener(new View.OnClickListener() {
      @Override
@@ -107,7 +124,6 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
                         }}
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
@@ -116,7 +132,6 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             Toast.makeText(MenuPrincipalActivity.this, "Código evento vacío.", Toast.LENGTH_SHORT).show();
         }}
     });
-
         misEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,7 +139,6 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                 startActivity(in, ActivityOptions.makeSceneTransitionAnimation(MenuPrincipalActivity.this).toBundle());
             }
         });
-
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,7 +148,6 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         });
 
     }
-
     public void chekType(){
         if(auth!=null){
         mDatabase.child("Users").child(auth.getUid().toString()).addValueEventListener(new ValueEventListener() {

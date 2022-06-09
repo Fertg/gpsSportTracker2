@@ -158,6 +158,15 @@
             android:backgroundTint="#FFAB40"
             android:text="Seguir Evento"
             app:cornerRadius="20dp" />
+
+        <Button
+            android:id="@+id/btn_closeSesion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F39090"
+            android:text="Cerrar Sesión"
+            app:cornerRadius="20dp" />
+
     </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
