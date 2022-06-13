@@ -1,10 +1,15 @@
 package com.fertg.gpssporttracker;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +41,8 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private TextView codigoEvento,locaEvento;
     FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+    int REQUEST_CODE=20;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +63,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         create.setVisibility(View.INVISIBLE);
         misEvents.setVisibility(View.INVISIBLE);
+        verificarPermisos();
         FirebaseApp.initializeApp(/*context=*/ this);
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
         firebaseAppCheck.installAppCheckProviderFactory(
@@ -159,6 +167,23 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         });
 
     }
+//verificar permisos de ubicacion desde android M en adelante es obligatorio
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void verificarPermisos() {
+
+        int permisoUbi=ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+        int permisoUb2=ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+        int permisoUb3=ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if(permisoUb2==PackageManager.PERMISSION_GRANTED && permisoUbi==PackageManager.PERMISSION_GRANTED && permisoUb3==PackageManager.PERMISSION_GRANTED){
+
+        }else{
+            requestPermissions(new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE);
+        }
+
+
+    }
+
     //Chequea que usuario somos "tipo"
     public void chekType(){
         if(auth!=null){
