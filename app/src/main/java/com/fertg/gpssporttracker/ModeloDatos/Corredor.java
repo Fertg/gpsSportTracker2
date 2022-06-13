@@ -1,5 +1,5 @@
 package com.fertg.gpssporttracker.ModeloDatos;
-
+//Clase para setear en la base de datos los datos del corredor
 public class Corredor {
     String id;
     String name;

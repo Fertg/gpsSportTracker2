@@ -23,33 +23,39 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+//Cargar RV con los eventos de cada organizador
 public class misEventosActivity extends AppCompatActivity {
-private RecyclerView rv;
-private List<Evento> eventosList;
-private List<Evento> eventosListFind;
-private RecyclerView.Adapter adapter;
-adapterEvents listAdapter;
-private FirebaseAuth mAuth;
-private String user ="";
+    private RecyclerView rv;
+    private List<Evento> eventosList;
+    private List<Evento> eventosListFind;
+    private RecyclerView.Adapter adapter;
+    adapterEvents listAdapter;
+    private FirebaseAuth mAuth;
+    private String user = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_eventos);
-        rv=findViewById(R.id.rv_eventos);
+        rv = findViewById(R.id.rv_eventos);
         rv.setLayoutManager(new LinearLayoutManager(this));
         eventosList = new ArrayList<>();
+        //recupero instancia de Firebase y del auth
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        user=mAuth.getUid();
-        adapter = new adapterEvents(eventosList) ;
-rv.setAdapter(adapter);
+        user = mAuth.getUid();
+        //le referenci un adaptador al rv y a una lista
+        adapter = new adapterEvents(eventosList);
+        rv.setAdapter(adapter);
         database.getReference().child("Events").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {eventosList.removeAll(eventosList);
-                for (DataSnapshot snapshotL:snapshot.getChildren()) {
-                    Evento eventosObList =snapshotL.getValue(Evento.class);
-
-                    if (eventosObList.getuSerUII().equals(user)){
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                eventosList.removeAll(eventosList);
+                //obtengo los datos para añadirlos a la lista de eventosList
+                for (DataSnapshot snapshotL : snapshot.getChildren()) {
+                    Evento eventosObList = snapshotL.getValue(Evento.class);
+                //si existe los añado
+                    if (eventosObList.getuSerUII().equals(user)) {
                         eventosList.add(eventosObList);
                     }
                 }
@@ -63,25 +69,26 @@ rv.setAdapter(adapter);
             }
         });
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
+            //al mover borro el evento de la BBDD
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            Evento deleteEvento = eventosList.get(viewHolder.getAdapterPosition());
-            int position = viewHolder.getAdapterPosition();
-            String key=eventosList.get(position).getCodigoEvento();
-            database.getReference().child("Events").child(key).removeValue();
-            database.getReference().child("Events").child(key).setValue(null);
+                Evento deleteEvento = eventosList.get(viewHolder.getAdapterPosition());
+                int position = viewHolder.getAdapterPosition();
+                String key = eventosList.get(position).getCodigoEvento();
+                database.getReference().child("Events").child(key).removeValue();
+                database.getReference().child("Events").child(key).setValue(null);
                 eventosList.remove(viewHolder.getAdapterPosition());
                 adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                Snackbar.make(rv,"¿Borrar?",Snackbar.LENGTH_LONG).setAction("Desacher", new View.OnClickListener() {
+                Snackbar.make(rv, "¿Borrar?", Snackbar.LENGTH_LONG).setAction("Deshacer", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        eventosList.add(position,deleteEvento);
+                        eventosList.add(position, deleteEvento);
                         adapter.notifyItemInserted(position);
                     }
                 }).show();

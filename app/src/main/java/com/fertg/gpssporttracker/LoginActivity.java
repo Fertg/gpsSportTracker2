@@ -38,6 +38,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
+//Clase para loguearse , primera al cargar.
 public class LoginActivity extends AppCompatActivity {
     private Button btnlogin, btnRegister, btnClose;
     private EditText login, pass;
@@ -101,12 +103,16 @@ public class LoginActivity extends AppCompatActivity {
         txi1 = (TextInputLayout) findViewById(R.id.textInputLayout2);
         txi2 = (TextInputLayout) findViewById(R.id.textInputLayout4);
         btnClose = (Button) findViewById(R.id.btn_close);
+        //referencias al Auth de google
         mAuth = FirebaseAuth.getInstance();
+        //lectura de firebase para pasar el nombre al menuPrincipal
         mDatabase= FirebaseDatabase.getInstance().getReference();
         FirebaseUser user = mAuth.getCurrentUser();
         WebView wView = new WebView(this);
+        //Carga y transaccion para inflar el fragment
         myFrag = new FragmentRegistroUsers();
         getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).add(R.id.frameLayoutRegistro, myFrag).commit();
+        //validaciones básicas con el repositorio awesomeValidation
         awesomevalidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomevalidation.addValidation(this,
                 R.id.eT_email,
@@ -129,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (!login.getText().toString().equals("") || !pass.getText().toString().equals("") || !pass.getText().toString().equals("") && !login.getText().toString().equals("") || !passW.isEmpty())
                             if (awesomevalidation.validate()) {
-
+//Si está correcte llamamos al task si hay conexion login
                                 mAuth.signInWithEmailAndPassword(email, passW).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -193,7 +199,7 @@ public class LoginActivity extends AppCompatActivity {
         login.setVisibility(View.VISIBLE);
         pass.setVisibility(View.VISIBLE);
     }
-
+// si login OK intent con bundle en intent para recuperar el nombre
     public void loginOk() {
         Toast.makeText(LoginActivity.this, "Login Correcto", Toast.LENGTH_SHORT).show();
         Intent in = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
@@ -205,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void ocultarTeclado(View view) {
         try {
-            // Ocultar el teclado tras introducir un número
+            // Ocultar el teclado tras introducir un número haciendo click en cualquier parte de la pantalla
             imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         } catch (Exception e) {

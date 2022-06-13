@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "370401813176",
+    "firebase_url": "https://gpssporttracker-b87bc-default-rtdb.firebaseio.com",
+    "project_id": "gpssporttracker-b87bc",
+    "storage_bucket": "gpssporttracker-b87bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370401813176:android:56397d3e63572202f60a4d",
+        "android_client_info": {
+          "package_name": "com.fertg.gpssporttracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "370401813176-v2frqcri0ighpcpj9i4kr306ad3g63s8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAycNx8SvegwhjRFU_nsZbyx-lkRLAyz4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370401813176-v2frqcri0ighpcpj9i4kr306ad3g63s8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

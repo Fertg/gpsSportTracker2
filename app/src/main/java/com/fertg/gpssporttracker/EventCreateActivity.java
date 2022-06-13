@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
-
+//Clase para crear eventos
 public class EventCreateActivity extends AppCompatActivity {
     private Button geneCode, clearCode, btCreate,btMod;
     private TextView code;
@@ -41,10 +41,10 @@ public class EventCreateActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private String codeBBD = "";
-
-
    private Spinner spinnerEventos;
     @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_create);
@@ -73,17 +73,18 @@ public class EventCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loadCodes();
+                btCreate.setText("Actualizar Evento");
             }
         });
         btCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final int[] flag = {0};
-
+//referencias en la bbdd con el nodo evento
                 mDatabase.child("Events").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+//añadir valor con el keyEvent como PK
                         for( final DataSnapshot snapshot1:  snapshot.getChildren()){
                             mDatabase.child("Events").child(snapshot1.getKey()).addValueEventListener(new ValueEventListener() {
 
@@ -99,7 +100,7 @@ public class EventCreateActivity extends AppCompatActivity {
 
                                 }
                             });
-
+//obtener los campos de los inputs
                         } if(flag[0] ==0){
                             String nombreE = nombreEvent.getText().toString();
                             String locaE = localidadEvent.getText().toString();
@@ -122,15 +123,17 @@ public class EventCreateActivity extends AppCompatActivity {
             }
         });
 
-
+// btn generar codigo
         geneCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 codeBBD = generateCode(i).toUpperCase(Locale.ROOT).toString();
                 code.setText(codeBBD);
+                btCreate.setText("Crear Evento");
                 geneCode.setEnabled(false);
             }
         });
+        //limpiar codigo
         clearCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,7 +143,7 @@ public class EventCreateActivity extends AppCompatActivity {
         });
 
     }
-
+//cargar los datos en la bbdd
     private void cargarDatos(String nombreE, String locaE, String modE, String numbE, String dateE, String uSerUII) {
 
         if ( !nombreE.isEmpty() ||  !locaE.isEmpty() ||  !modE.isEmpty() ||  !numbE.isEmpty() ||  !dateE.isEmpty() ) {
@@ -168,6 +171,8 @@ public class EventCreateActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for (DataSnapshot objSnap: snapshot.getChildren()) {
+//Control de recuperar solo los del usuario logueado
+                            if (objSnap.child("uSerUII").getValue().toString().equalsIgnoreCase(mAuth.getUid())){
                         String code = objSnap.getKey();
                         String nombreEvento= objSnap.child("nombreEvento").getValue().toString();
                         String lugarEvento= objSnap.child("lugarEvento").getValue().toString();
@@ -175,7 +180,7 @@ public class EventCreateActivity extends AppCompatActivity {
                         String numeroCorredores= objSnap.child("numeroCorredores").getValue().toString();
                         String fechaEvento= objSnap.child("fechaEvento").getValue().toString();
                         listEvento.add(new Evento( nombreEvento,  lugarEvento,  modalidad,  numeroCorredores, code,  fechaEvento));
-                    }
+                            }}
 
                     ArrayAdapter<Evento> arrayAdapter = new ArrayAdapter<>(EventCreateActivity.this, android.R.layout.simple_dropdown_item_1line,listEvento);
                spinnerEventos.setAdapter(arrayAdapter);
@@ -207,6 +212,8 @@ public class EventCreateActivity extends AppCompatActivity {
             }
         });
     }
+
+    //Generar codigo RAMDOM
     public String generateCode(int i) {
 
         byte[] bytearray;
@@ -245,7 +252,7 @@ public class EventCreateActivity extends AppCompatActivity {
         // the resulting string
         return thebuffer.toString();
     }
-
+//limpiar campos
     private void limpiarC() {
         nombreEvent.setText("");
         localidadEvent.setText("");

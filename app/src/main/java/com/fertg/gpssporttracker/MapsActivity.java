@@ -49,7 +49,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+//clase que carga el mapa para compartir ubicacion
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -64,8 +64,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng mCurrentLatLong;
     private MapView mMapView;
     private Marker mMarker;
+    //API DE GOOGLE
     private static final String MAPVIEW_BUNDLE_KEY = "AIzaSyAycNx8SvegwhjRFU_nsZbyx-lkRLAyz4E";
+    //atributo clase google para obtener geolocalizacion
     private FusedLocationProviderClient mFusedLocation;
+    //metodo que funciona cuando la ubicación cambia con funcion lambda
     LocationCallback mLocationCall = new LocationCallback() {
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
@@ -79,10 +82,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         nombre = snapshot.child("name").getValue().toString();
                         for (Location location : locationResult.getLocations()) {
                             mCurrentLatLong = new LatLng(location.getLatitude(),location.getLongitude());
+                            //borramos el marcador cuando nos movemos
                             if (getApplicationContext() != null) {
                                 if (mMarker != null) {
                                     mMarker.remove();
                                 }
+                                //volvemos a pintar el marcador
                                 mMarker = mMap.addMarker(new MarkerOptions().position(
                                         new LatLng(location.getLatitude(), location.getLongitude()
                                         )).title(nombre).icon(BitmapDescriptorFactory.fromResource(R.drawable.runicoico)));
@@ -93,6 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                 .zoom(15f)
                                                 .build()
                                 ));
+                                //actualizamos localizacion
                                 updateLocation();
                             }
                         }
@@ -178,6 +184,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onStop();
         mMapView.onStop();
     }
+
+    //save en el geoprovider
     private void updateLocation(){
         if(existSesion() && mCurrentLatLong != null){
             mGeofireProvider.saveLocation(FirebaseAuth.getInstance().getCurrentUser().getUid().toString(),mCurrentLatLong);
@@ -207,6 +215,8 @@ public boolean existSesion(){
         }
         return true;
 }
+
+//cuando el mapa está activo, tiene permisos creamos la primera ubicacion e invocamos al starLocation
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -238,7 +248,7 @@ public boolean existSesion(){
         }
     }
 
-
+//chekeamos permisos y actualizamos la localización. Ya comenzará a actualizarse en 2º plano cada vez que nos movamos hasta detenerla
     private void startLocation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -253,7 +263,7 @@ public boolean existSesion(){
         }
     }
 
-
+//Check de permisos, en algunos androids con SDK superior a 21 puede no funcionar la ubicacion en 2º plano
     private void checkLocationPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 

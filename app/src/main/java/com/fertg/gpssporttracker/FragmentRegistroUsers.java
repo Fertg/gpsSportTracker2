@@ -31,17 +31,18 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class FragmentRegistroUsers extends Fragment {
-    private Button btnGuardar,btnLimpiar;
+    private Button btnGuardar, btnLimpiar;
     private Fragment myFrag;
     private FragmentTransaction tr;
-    private EditText user, pass, pass1,nameUser;
+    private EditText user, pass, pass1, nameUser;
     private FirebaseAuth auth;
     private CheckBox chbxCondition;
     private AwesomeValidation awesomevalidation;
     private LoginActivity l = new LoginActivity();
     private InputMethodManager imm;
     private DatabaseReference mDatabase;
-    private String typeR="user";
+    private String typeR = "user";
+
     public FragmentRegistroUsers() {
         // Required empty public constructor
     }
@@ -65,7 +66,7 @@ public class FragmentRegistroUsers extends Fragment {
         if (getArguments() != null) {
 
         }
-
+//Obtengo instancia de firebaseDatabase
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -80,7 +81,7 @@ public class FragmentRegistroUsers extends Fragment {
         pass = (EditText) v.findViewById(R.id.et_Pass1);
         pass1 = (EditText) v.findViewById(R.id.et_Pass2);
         auth = FirebaseAuth.getInstance();
-
+//Validacion con el git Awesomevalidation
         awesomevalidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomevalidation.addValidation(getActivity(),
                 R.id.eT_email,
@@ -94,6 +95,7 @@ public class FragmentRegistroUsers extends Fragment {
         chbxCondition = (CheckBox) v.findViewById(R.id.checkBox2);
 
         myFrag = new FragmentRegistroUsers();
+        //Clear inputs
         btnLimpiar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,83 +118,83 @@ public class FragmentRegistroUsers extends Fragment {
                 TextInputLayout txi1 = getActivity().findViewById(R.id.textInputLayout2);
                 TextInputLayout txi2 = getActivity().findViewById(R.id.textInputLayout4);
 
-
-                    if (user.getText().toString().equals("") &&
-                            pass.getText().toString().equals("") && pass1.getText().toString().equals("") || pass1.getText().toString().equals("")) {
-                        Toast.makeText(getContext(), "Error, campos vacios", Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (pass.getText().toString().equals(pass1.getText().toString())) {
-                            String nombreC = userName.getText().toString();                            String email = user.getText().toString();
-                            String pass12 = pass.getText().toString();
-
-                            if (awesomevalidation.validate()) {
-                                auth.createUserWithEmailAndPassword(email, pass12).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                        if (task.isSuccessful()) {
-                                            if (chbxCondition.isChecked()) {
-                                                String id= auth.getCurrentUser().getUid();
-                                                Corredor corredor = new Corredor();
-                                                corredor.setEmail(email);
-                                                corredor.setName(nombreC);
+//Control de vacios
+                if (user.getText().toString().equals("") &&
+                        pass.getText().toString().equals("") && pass1.getText().toString().equals("") || pass1.getText().toString().equals("")) {
+                    Toast.makeText(getContext(), "Error, campos vacios", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (pass.getText().toString().equals(pass1.getText().toString())) {
+                        String nombreC = userName.getText().toString();
+                        String email = user.getText().toString();
+                        String pass12 = pass.getText().toString();
+//si pasa la validacion
+                        if (awesomevalidation.validate()) {
+                            auth.createUserWithEmailAndPassword(email, pass12).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+//llamada aceptada
+                                    if (task.isSuccessful()) {
+                                        if (chbxCondition.isChecked()) {
+                                            String id = auth.getCurrentUser().getUid();
+                                            Corredor corredor = new Corredor();
+                                            corredor.setEmail(email);
+                                            corredor.setName(nombreC);
 //                                                TYPE 1:ORGANIZADOR
-                                                corredor.setType(1);
-                                                pass.setText("");
-                                                pass1.setText("");
-                                                user.setText("");
-                                                nameUser.setText("");
-                                                mDatabase.child("Users").child(id).setValue(corredor);
+                                            corredor.setType(1);
+                                            pass.setText("");
+                                            pass1.setText("");
+                                            user.setText("");
+                                            nameUser.setText("");
+                                            mDatabase.child("Users").child(id).setValue(corredor);
 
-
-                                            }else{
-                                                String id= auth.getCurrentUser().getUid();
-                                                Corredor corredor = new Corredor();
-                                                corredor.setEmail(email);
-                                                corredor.setName(nombreC);
-//                                                TYPE 0:USER
-                                                corredor.setType(0);
-                                                pass.setText("");
-                                                pass1.setText("");
-                                                user.setText("");
-                                                nameUser.setText("");
-                                                mDatabase.child("Users").child(id).setValue(corredor);
-                                            }
-
-                                            Toast.makeText(getContext(), "Usuario registrado", Toast.LENGTH_SHORT).show();
-
-
-
-                                            //Ocultar botones y fragment
-                                            fragment.setVisibility(View.INVISIBLE);
-                                            btnRegister.setVisibility(View.VISIBLE);
-                                            btnlogin.setVisibility(View.VISIBLE);
-                                            txi1.setVisibility(View.VISIBLE);
-                                            txi2.setVisibility(View.VISIBLE);
-                                            login.setVisibility(View.VISIBLE);
-                                            passf.setVisibility(View.VISIBLE);
 
                                         } else {
-                                            String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
-                                            dameToastdeerror(errorCode);
+                                            String id = auth.getCurrentUser().getUid();
+                                            Corredor corredor = new Corredor();
+                                            corredor.setEmail(email);
+                                            corredor.setName(nombreC);
+//                                                TYPE 0:USER
+                                            corredor.setType(0);
+                                            pass.setText("");
+                                            pass1.setText("");
+                                            user.setText("");
+                                            nameUser.setText("");
+                                            mDatabase.child("Users").child(id).setValue(corredor);
                                         }
-                                    }
-                                });
-                            } else {
-                                Toast.makeText(getContext(), "Error campos vacios", Toast.LENGTH_SHORT).show();
-                            }
 
+                                        Toast.makeText(getContext(), "Usuario registrado", Toast.LENGTH_SHORT).show();
+
+
+                                        //Ocultar botones y fragment
+                                        fragment.setVisibility(View.INVISIBLE);
+                                        btnRegister.setVisibility(View.VISIBLE);
+                                        btnlogin.setVisibility(View.VISIBLE);
+                                        txi1.setVisibility(View.VISIBLE);
+                                        txi2.setVisibility(View.VISIBLE);
+                                        login.setVisibility(View.VISIBLE);
+                                        passf.setVisibility(View.VISIBLE);
+
+                                    } else {
+                                        String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                                        dameToastdeerror(errorCode);
+                                    }
+                                }
+                            });
                         } else {
-                            Toast.makeText(getContext(), "Error las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Error campos vacios", Toast.LENGTH_SHORT).show();
                         }
+
+                    } else {
+                        Toast.makeText(getContext(), "Error las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                     }
+                }
 
 
             }
         });
         return v;
     }
-
+//ToastDelAwesomeValidation
     private void dameToastdeerror(String error) {
 
         switch (error) {
@@ -273,9 +275,6 @@ public class FragmentRegistroUsers extends Fragment {
         }
 
     }
-
-
-
 
 
 }

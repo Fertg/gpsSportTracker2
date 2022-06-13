@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
+//clase que carga el mapa para la visualizacion de eventos
 public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private ActivityMapsViewsBinding binding;
@@ -74,7 +74,7 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
         getActiveRunner();
 
     }
-
+//obtener los corredores activos
     private void getActiveRunner() {
         LatLng runnerLatLng=buscar(keyEvent);
         mGeofireProvider.getActiveRunners(runnerLatLng).addGeoQueryEventListener(
@@ -89,6 +89,7 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
                                 }
                             }
                         }
+                        //obtengo nombres si existen  y coninciden con UUII
                         mDatabase.child("Users").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -96,6 +97,7 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
                                     String nombre;
                                     nombre = snapshot.child("name").getValue().toString();
                                     LatLng runLat = new LatLng(location.latitude, location.longitude);
+                                    //pinto el marker y le seteo el tag con el nombre
                                     Marker mMarker = mMap.addMarker(new MarkerOptions().position(runLat).title(nombre).icon(BitmapDescriptorFactory.fromResource(R.drawable.location)));
                                     mMarker.setTag(key);
                                     Log.e("nombre corredor: ", nombre) ;
@@ -111,9 +113,7 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
                         });
 
                     }
-
-
-
+                    //cuando salgo borro el marker
                     @Override
                     public void onKeyExited(String key) {
                         for (Marker mMarker : mRunnerMarkers) {
@@ -129,7 +129,7 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
 
                     @Override
                     public void onKeyMoved(String key, GeoLocation location) {
-                        // Actualizar la posicione de cada conductor
+                        // Actualizar la posicione de cada corredor
                         for (Marker mMarker : mRunnerMarkers) {
                             if (mMarker.getTag() != null) {
                                 if (mMarker.getTag().equals(key)) {
@@ -152,6 +152,7 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
                     }
                 });
     }
+    //posiciono la pantalla en la ubicacion del evento a traves del Geocoder
     public LatLng buscar(String keyEvent) {
 
         String addressStr = keyEvent;
@@ -200,6 +201,7 @@ public class MapsViewsActivity extends FragmentActivity implements OnMapReadyCal
 
 
     }
+    //cuando el mapa esta preparado busco la ubicacion con el geocoder y le paso las ubicaciones con el LatLng
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

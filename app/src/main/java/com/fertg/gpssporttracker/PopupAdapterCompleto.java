@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.Marker;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
+//FUTURA IMPLEMENTACION , personalizacion de los markers
 class PopupAdapter implements GoogleMap.InfoWindowAdapter {
     private View popup = null;
     private LayoutInflater inflater = null;

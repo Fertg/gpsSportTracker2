@@ -2,7 +2,7 @@
 package com.fertg.gpssporttracker.ModeloDatos;
 
 import com.google.android.material.textfield.TextInputEditText;
-
+//Clase para setear en la base de datos los datos de los eventos
 public class Evento {
     @Override
     public String toString() {

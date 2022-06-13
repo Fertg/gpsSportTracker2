@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fertg.gpssporttracker.ModeloDatos.Evento;
 
 import java.util.List;
-
+//Adapter para inflar los RV de misEvents
 public class adapterEvents extends RecyclerView.Adapter<adapterEvents.eventosViewHolder>{
     List<Evento> eventos;
 
@@ -26,7 +26,7 @@ public class adapterEvents extends RecyclerView.Adapter<adapterEvents.eventosVie
         eventosViewHolder holder = new eventosViewHolder(v);
         return holder;
     }
-
+//Setter del rv
     @Override
     public void onBindViewHolder(@NonNull eventosViewHolder holder, int position) {
 Evento eventoObj = eventos.get(position);
@@ -38,7 +38,7 @@ holder.fechaTV.setText("Fecha: "+eventoObj.getFechaEvento());
 holder.codeTV.setText("Código: "+eventoObj.getCodigoEvento());
 
     }
-
+//Obtener el numero de cardsviews
     @Override
     public int getItemCount() {
         return eventos.size();
@@ -46,7 +46,7 @@ holder.codeTV.setText("Código: "+eventoObj.getCodigoEvento());
 
     public static class eventosViewHolder extends RecyclerView.ViewHolder {
         TextView nombreTV, lugarTV, modalidadTV, codeTV, fechaTV, numeroTV;
-
+// referencias  del activity
         public eventosViewHolder(@NonNull View itemView) {
             super(itemView);
             nombreTV = (TextView) itemView.findViewById(R.id.tv_nombreRv);

@@ -1,5 +1,5 @@
 package com.fertg.gpssporttracker.ModeloDatos;
-
+//Clase para setear en la base de datos los datos del organizador
 public class Organizador {
     String id;
     String name;
